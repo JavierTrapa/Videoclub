@@ -7,6 +7,7 @@ package videoclubJavi;
 
 import videoclubJavi.Usuarios;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  */
 public class VentanaUsuarios extends javax.swing.JFrame {
     
-    ArrayList <Usuarios> listaUsuarios=new ArrayList();
+    HashMap <String,Usuarios>listaPokemons=new HashMap();
     /**
      * Creates new form VentanaUsuarios
      */
