@@ -3,19 +3,57 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package videoclub;
+package videoclubjorge;
+   
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.HashMap;
 
 /**
  *
- * @author xp
+ * @author Jorge
  */
-public class PantallaInicio extends javax.swing.JFrame {
+public class PantallaLogin extends javax.swing.JFrame {
+    
+    // conectamos a la base de datos
+
+    private Statement estado;
+    private ResultSet resultadoConsulta;
+    private Connection conexion;
+   
+    ////////////////////////////////////////
+    
+    //hashmap para almacenar el resultado de la consulta
+    HashMap <String,User> listaUsuarios = new HashMap();
     
     /**
-     * Creates new form PantallaInicio
+     * Creates new form PantallaLogin
      */
-    public PantallaInicio() {
-        initComponents();           
+    public PantallaLogin() {
+        initComponents();
+        
+        //conexion a la base de datos//////////////////
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1/test","root","");
+            estado = conexion.createStatement();
+            resultadoConsulta = estado.executeQuery("Select * from usuarios");
+            //cargo el resultado de la query en mi hashmap
+            while (resultadoConsulta.next()){
+                User u = new User();
+                u.DNI = resultadoConsulta.getString(1);
+                u.generation_id = resultadoConsulta.getInt(2);
+                u.evolution_chain_id = resultadoConsulta.getInt(3);
+                u.species = resultadoConsulta.getString(4);
+                
+                listaUsuarios.put(resultadoConsulta.getString(1), u);
+            }
+        }
+        catch (Exception e){
+        }
+        //////////////////////////////////////////////
     }
 
     /**
@@ -28,7 +66,6 @@ public class PantallaInicio extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -61,20 +98,20 @@ public class PantallaInicio extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PantallaInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PantallaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PantallaInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PantallaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PantallaInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PantallaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PantallaInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PantallaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PantallaInicio().setVisible(true);
+                new PantallaLogin().setVisible(true);
             }
         });
     }
