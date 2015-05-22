@@ -5,6 +5,10 @@
  */
 package videoclubJavi;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import videoclubJavi.Usuarios;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,15 +18,60 @@ import java.util.HashMap;
  * @author xp
  */
 public class VentanaUsuarios extends javax.swing.JFrame {
+    int contador=0;
     
-    HashMap <String,Usuarios>listaPokemons=new HashMap();
+    private Statement estado;
+    private ResultSet resultadoConsulta;
+    private Connection conexion;
+    
+    HashMap <String,Usuarios>listaUsuarios=new HashMap();
     /**
      * Creates new form VentanaUsuarios
      */
     public VentanaUsuarios() {
         initComponents();
+        
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            conexion=DriverManager.getConnection("jdbc:mysql://127.0.0.1/videoclub", "root", "");
+            estado=conexion.createStatement();
+            resultadoConsulta=estado.executeQuery("Select * from usuarios");
+            //cargo el resultado de mi query en un hashmap
+            while(resultadoConsulta.next()){
+                Usuarios u = new Usuarios();
+                u.nombre=resultadoConsulta.getString(2);
+                u.apellidos=resultadoConsulta.getString(3);
+                u.dni=resultadoConsulta.getInt(1);
+                u.email=resultadoConsulta.getString(5);
+                u.penalizacion=resultadoConsulta.getInt(4);
+                
+                
+                listaUsuarios.put(resultadoConsulta.getString(1), u);
+            }
+        }catch(Exception e){
+            System.out.println("Error");
+        }
     }
-
+    private void escribeDatos(){
+        //Usuarios u=listaUsuarios.get("5036787");
+        Usuarios u=listaUsuarios.get("5036787");
+        if(u!=null){
+            jLabel1.setText(u.nombre+"     "+u.apellidos);
+            /*jTextArea1.setText("Nombre: "+p.nombre+'\n'+"Numero: "+p.id+'\n'+
+                    "Evoluciona de: "+evolucionPrevia(p)+
+                    parametroEvolucion(p)+'\n'+
+                    "Altura: "+p.height+"dm"+'\n'+
+                    "Peso: "+p.weight+"hg"+'\n'+
+                    "Especie: "+p.species+'\n'+
+                    "Habitat: "+p.habitat+'\n'+
+                    "% de captura: "+p.capture_rate+"%"+'\n'+
+                    "Experiencia base: "+p.base_experience+'\n'+
+                    "Felicidad base: "+p.base_happiness+'\n');
+        }else{
+            jLabel2.setText("No Hay Datos");
+            jTextArea1.setText("No Hay Datos");*/
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,7 +120,7 @@ public class VentanaUsuarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
-        
+        escribeDatos();
     }//GEN-LAST:event_jButton1MousePressed
 
     /**
