@@ -30,6 +30,8 @@ public class VentanaUsuarios extends javax.swing.JFrame {
     private ResultSet resultadoConsulta;
     private Connection conexion;
     
+    private Usuarios u;
+    
     HashMap <String,Usuarios>listaUsuarios=new HashMap();
     /**
      * Creates new form VentanaUsuarios
@@ -86,12 +88,12 @@ public class VentanaUsuarios extends javax.swing.JFrame {
     
     public VentanaUsuarios(videoclubjorge.Login usuario) {
         initComponents();
-        jLabel3.setText(usuario);
+        u=listaUsuarios.get(usuario.dni);
     }
     
     private void escribeDatos(){
         //Usuarios u=listaUsuarios.get("5036787");
-        Usuarios u=listaUsuarios.get("5036787");
+        //Usuarios u=listaUsuarios.get(videoclubjorge.Login );
         
         if(u!=null){
             jLabel1.setText("Nombre: "+u.nombre+" "+u.apellidos);
