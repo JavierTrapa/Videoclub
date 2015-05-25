@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package videoclubjorge;
    
 import java.sql.Connection;
@@ -10,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashMap;
+import videoclubJavi.VentanaUsuarios;
 
 /**
  *
@@ -33,6 +29,8 @@ public class PantallaLogin extends javax.swing.JFrame {
      */
     public PantallaLogin() {
         initComponents();
+        
+        setTitle("Log in");
         
         //conexion a la base de datos//////////////////
         try{
@@ -81,6 +79,11 @@ public class PantallaLogin extends javax.swing.JFrame {
         jLabel1.setText("LOG IN");
 
         jButton1.setText("Aceptar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -145,6 +148,14 @@ public class PantallaLogin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       
+            videoclubJavi.VentanaUsuarios pelis = new VentanaUsuarios();
+            pelis.setVisible(true);
+            dispose();
+           
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
