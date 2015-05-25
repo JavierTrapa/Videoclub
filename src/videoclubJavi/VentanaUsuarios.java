@@ -5,13 +5,18 @@
  */
 package videoclubJavi;
 
+import videoclubjorge.Login;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import videoclubJavi.Usuarios;
-import java.util.ArrayList;
 import java.util.HashMap;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -19,6 +24,7 @@ import java.util.HashMap;
  */
 public class VentanaUsuarios extends javax.swing.JFrame {
     int contador=0;
+    private Image foto;
     
     private Statement estado;
     private ResultSet resultadoConsulta;
@@ -28,9 +34,34 @@ public class VentanaUsuarios extends javax.swing.JFrame {
     /**
      * Creates new form VentanaUsuarios
      */
+    
+    @Override
+    public void paint (Graphics g){
+        super.paintComponents(g);
+        g = jPanel1.getGraphics();
+        
+        //cargamos una imagen
+        
+        foto = null;
+        
+        try {
+            
+            //foto = ImageIO.read(getClass().getResource("../ImagenesUsuario/"+Login.+".jpg"));
+                   foto = ImageIO.read(getClass().getResource("/ImagenesPeliculas/5036787.jpg"));     
+            
+        
+        } catch (IOException ex) {
+            
+        }
+        
+        g.drawImage(foto, 0, 0, jPanel1.getWidth(), jPanel1.getHeight(),null);
+        
+    }
+    
     public VentanaUsuarios() {
         initComponents();
-        
+        this.getContentPane().setBackground(Color.BLUE);
+        //foto=new Image(getClass().getResource(""));
         try{
             Class.forName("com.mysql.jdbc.Driver");
             conexion=DriverManager.getConnection("jdbc:mysql://127.0.0.1/videoclub", "root", "");
@@ -52,24 +83,22 @@ public class VentanaUsuarios extends javax.swing.JFrame {
             System.out.println("Error");
         }
     }
+    
+    public VentanaUsuarios(videoclubjorge.Login usuario) {
+        initComponents();
+        jLabel3.setText(usuario);
+    }
+    
     private void escribeDatos(){
         //Usuarios u=listaUsuarios.get("5036787");
         Usuarios u=listaUsuarios.get("5036787");
+        
         if(u!=null){
-            jLabel1.setText(u.nombre+"     "+u.apellidos);
-            /*jTextArea1.setText("Nombre: "+p.nombre+'\n'+"Numero: "+p.id+'\n'+
-                    "Evoluciona de: "+evolucionPrevia(p)+
-                    parametroEvolucion(p)+'\n'+
-                    "Altura: "+p.height+"dm"+'\n'+
-                    "Peso: "+p.weight+"hg"+'\n'+
-                    "Especie: "+p.species+'\n'+
-                    "Habitat: "+p.habitat+'\n'+
-                    "% de captura: "+p.capture_rate+"%"+'\n'+
-                    "Experiencia base: "+p.base_experience+'\n'+
-                    "Felicidad base: "+p.base_happiness+'\n');
-        }else{
-            jLabel2.setText("No Hay Datos");
-            jTextArea1.setText("No Hay Datos");*/
+            jLabel1.setText("Nombre: "+u.nombre+" "+u.apellidos);
+            jLabel2.setText("Email: "+u.email);
+            jLabel3.setText("DNI: "+String.valueOf(u.dni));
+            jLabel4.setText("Penalizaciones: "+String.valueOf(u.penalizacion));
+            
         }
     }
     /**
@@ -83,8 +112,14 @@ public class VentanaUsuarios extends javax.swing.JFrame {
 
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jButton1.setText("jButton1");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -93,7 +128,30 @@ public class VentanaUsuarios extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setForeground(new java.awt.Color(204, 204, 0));
         jLabel1.setText("jLabel1");
+
+        jLabel2.setForeground(new java.awt.Color(204, 204, 0));
+        jLabel2.setText("jLabel2");
+
+        jLabel3.setForeground(new java.awt.Color(204, 204, 0));
+        jLabel3.setText("jLabel3");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 108, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 119, Short.MAX_VALUE)
+        );
+
+        jLabel4.setForeground(new java.awt.Color(204, 204, 0));
+        jLabel4.setText("jLabel4");
+
+        jButton2.setText("Ver Catalogo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,19 +159,45 @@ public class VentanaUsuarios extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jLabel1))
-                .addContainerGap(317, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addGap(29, 29, 29)
-                .addComponent(jLabel1)
-                .addContainerGap(223, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(107, 107, 107)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2)
+                            .addComponent(jButton1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(16, 16, 16)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel4)))))
+                .addContainerGap(170, Short.MAX_VALUE))
         );
 
         pack();
@@ -121,6 +205,7 @@ public class VentanaUsuarios extends javax.swing.JFrame {
 
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
         escribeDatos();
+        
     }//GEN-LAST:event_jButton1MousePressed
 
     /**
@@ -160,6 +245,11 @@ public class VentanaUsuarios extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
