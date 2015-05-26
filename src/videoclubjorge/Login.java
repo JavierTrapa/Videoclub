@@ -3,7 +3,7 @@ package videoclubjorge;
 
 /**
  *
- * @author Jorge
+ * @author Jorge Peña
  */
 public class Login {
     public String email="";
