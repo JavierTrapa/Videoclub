@@ -172,7 +172,7 @@ public class PantallaLogin extends javax.swing.JFrame {
         
         Login usuario = new Login(email, dni);
         
-        new VentanaUsuarios(usuario);
+        new VentanaUsuarios(usuario).setVisible(true);
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

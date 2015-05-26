@@ -5,7 +5,7 @@
  */
 package videoclubJavi;
 
-import videoclubjorge.Login;
+//import videoclubjorge.Login;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -23,7 +23,7 @@ import javax.imageio.ImageIO;
  * @author xp
  */
 public class VentanaUsuarios extends javax.swing.JFrame {
-    int contador=0;
+    int dni=0;
     private Image foto;
     
     private Statement estado;
@@ -88,20 +88,50 @@ public class VentanaUsuarios extends javax.swing.JFrame {
     
     public VentanaUsuarios(videoclubjorge.Login usuario) {
         initComponents();
-        u=listaUsuarios.get(usuario.dni);
+        //jLabel1.setText(usuario.dni);
+        dni=Integer.parseInt(usuario.dni);
+        
+        //u=listaUsuarios.get(Integer.parseInt(usuario.dni));
+        this.getContentPane().setBackground(Color.BLUE);
+        //foto=new Image(getClass().getResource(""));
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            conexion=DriverManager.getConnection("jdbc:mysql://127.0.0.1/videoclub", "root", "");
+            estado=conexion.createStatement();
+            resultadoConsulta=estado.executeQuery("Select * from usuarios");
+            //cargo el resultado de mi query en un hashmap
+            while(resultadoConsulta.next()){
+                Usuarios u = new Usuarios();
+                u.nombre=resultadoConsulta.getString(2);
+                u.apellidos=resultadoConsulta.getString(3);
+                u.dni=resultadoConsulta.getInt(1);
+                u.email=resultadoConsulta.getString(5);
+                u.penalizacion=resultadoConsulta.getInt(4);
+                
+                
+                listaUsuarios.put(resultadoConsulta.getString(1), u);
+            }
+        }catch(Exception e){
+            System.out.println("Error");
+        }
+        escribeDatos();
     }
     
     private void escribeDatos(){
+        u=listaUsuarios.get(Integer.toString(dni));
         //Usuarios u=listaUsuarios.get("5036787");
         //Usuarios u=listaUsuarios.get(videoclubjorge.Login );
-        
+        //System.out.println(u.nombre);
         if(u!=null){
             jLabel1.setText("Nombre: "+u.nombre+" "+u.apellidos);
             jLabel2.setText("Email: "+u.email);
             jLabel3.setText("DNI: "+String.valueOf(u.dni));
             jLabel4.setText("Penalizaciones: "+String.valueOf(u.penalizacion));
             
+        }else{
+            jLabel1.setText("ERROR");
         }
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -112,7 +142,6 @@ public class VentanaUsuarios extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -122,13 +151,6 @@ public class VentanaUsuarios extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-
-        jButton1.setText("jButton1");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jButton1MousePressed(evt);
-            }
-        });
 
         jLabel1.setForeground(new java.awt.Color(204, 204, 0));
         jLabel1.setText("jLabel1");
@@ -164,9 +186,7 @@ public class VentanaUsuarios extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
                         .addComponent(jButton2)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
@@ -184,9 +204,7 @@ public class VentanaUsuarios extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(107, 107, 107)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2)
-                            .addComponent(jButton1)))
+                        .addComponent(jButton2))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,11 +222,6 @@ public class VentanaUsuarios extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
-        escribeDatos();
-        
-    }//GEN-LAST:event_jButton1MousePressed
 
     /**
      * @param args the command line arguments
@@ -246,7 +259,6 @@ public class VentanaUsuarios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

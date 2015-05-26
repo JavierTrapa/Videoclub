@@ -5,25 +5,51 @@
  */
 package videoclubJavi;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.HashMap;
+
 /**
  *
  * @author xp
  */
 public class PantallaPrestamos extends javax.swing.JFrame {
 
+    private Statement estado;
+    private ResultSet resultadoConsulta;
+    private Connection conexion;
+    
+    Prestamos p= new Prestamos();
+    
+    HashMap <String,Prestamos>listaPrestamos=new HashMap();
     /**
      * Creates new form PantallaPrestamos
      */
     public PantallaPrestamos() {
         initComponents();
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            conexion=DriverManager.getConnection("jdbc:mysql://127.0.0.1/videoclub", "root", "");
+            estado=conexion.createStatement();
+            resultadoConsulta=estado.executeQuery("Insert into prestamos "+ "values("+p.id_pelicula +", "+p.numeroEjemplar +", "+p.dni+", "+p.fechaPrestamo+", "+p.fechaDevolucion+")");
+             
+        }catch(Exception e){
+            System.out.println("Error");
+        }
+        datosPrestamo();
     }
     
     public PantallaPrestamos(videoclubjorge.Login usuario) {
         initComponents();
+        p.dni=Integer.parseInt(usuario.dni);
+        
     }
     
-    public PantallaPrestamos(videoclubGuillermoFernandez) {
-        initComponents();
+    private void datosPrestamo(){
+        jLabel1.setText(Integer.toString(p.dni));
+        
     }
 
     /**
