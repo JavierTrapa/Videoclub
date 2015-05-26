@@ -41,7 +41,7 @@ public class PantallaPrestamos extends javax.swing.JFrame {
         datosPrestamo();
     }
     
-    public PantallaPrestamos(videoclubjorge.Login usuario) {
+    public PantallaPrestamos(videoclubjorge.Login usuario,VideoclubGuillermoFernandez.Peliculas peli) {
         initComponents();
         p.dni=Integer.parseInt(usuario.dni);
         

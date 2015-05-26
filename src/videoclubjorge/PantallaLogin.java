@@ -167,12 +167,13 @@ public class PantallaLogin extends javax.swing.JFrame {
    //         videoclubJavi.VentanaUsuarios pelis = new VentanaUsuarios();
    //         pelis.setVisible(true);
    //         dispose();  
-        String email = jTextField1.getText();
-        String dni = jTextField2.getText();
+        String email = jTextField2.getText();
+        String dni = jTextField1.getText();
         
         Login usuario = new Login(email, dni);
         
         new VentanaUsuarios(usuario).setVisible(true);
+        this.setVisible(false);
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
