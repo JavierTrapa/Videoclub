@@ -49,7 +49,7 @@ public class VentanaUsuarios extends javax.swing.JFrame {
         try {
             
             //foto = ImageIO.read(getClass().getResource("../ImagenesUsuario/"+Login.+".jpg"));
-                   foto = ImageIO.read(getClass().getResource("/ImagenesPeliculas/5036787.jpg"));     
+                   foto = ImageIO.read(getClass().getResource("/5036787.jpg"));     
             
         
         } catch (IOException ex) {
@@ -116,6 +116,8 @@ public class VentanaUsuarios extends javax.swing.JFrame {
         }
         escribeDatos();
     }
+    
+    
     
     private void escribeDatos(){
         u=listaUsuarios.get(Integer.toString(dni));
