@@ -101,7 +101,8 @@ public class PantallaInicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        jButton1.setBackground(Color.red); // TODO add your handling code here:
+        
+        new videoclubjorge.Login();
     }//GEN-LAST:event_jButton1MouseClicked
 
     /**
